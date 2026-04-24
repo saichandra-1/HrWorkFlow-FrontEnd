@@ -1,3 +1,11 @@
+# WORKING FRONT END 
+
+**Live** [https://hr-work-flow-front-end.vercel.app/](https://hr-work-flow-front-end.vercel.app/)
+
+# WORKING BACK END
+
+**Live** [https://hr-backend-sk8ri.ondigitalocean.app/api/health](https://hr-backend-sk8ri.ondigitalocean.app/api/health)
+
 # HR Workflow Designer — WorkflowHR
 
 A production-quality **HR Workflow Designer** built with React + React Flow that allows HR administrators to visually create, configure, and test internal workflows such as employee onboarding, leave approval, and document verification.
