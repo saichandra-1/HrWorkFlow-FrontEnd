@@ -1,26 +1,1073 @@
+/* =========================================
+   HR Workflow Designer — Design System
+   ========================================= */
+
 @import "tailwindcss";
+@import "@xyflow/react/dist/style.css";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
+/* ---- Custom Theme Tokens ---- */
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
+  --color-surface: var(--surface);
+  --color-surface-hover: var(--surface-hover);
+  --color-border: var(--border-color);
+  --color-border-light: var(--border-light);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-fg);
+
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-fg);
+  --color-accent: var(--accent-color);
+
+  --color-node-start: var(--node-start);
+  --color-node-task: var(--node-task);
+  --color-node-approval: var(--node-approval);
+  --color-node-automated: var(--node-automated);
+  --color-node-end: var(--node-end);
+
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+:root {
+  --background: #f8f9fb;
+  --foreground: #1a1d23;
+  --surface: #ffffff;
+  --surface-hover: #f1f3f5;
+  --border-color: #e2e5e9;
+  --border-light: #eef0f3;
+  --muted: #f4f5f7;
+  --muted-fg: #6b7280;
+
+  --primary: #6366f1;
+  --primary-fg: #ffffff;
+  --accent-color: #818cf8;
+
+  --node-start: #10b981;
+  --node-task: #3b82f6;
+  --node-approval: #f59e0b;
+  --node-automated: #8b5cf6;
+  --node-end: #f43f5e;
+
+  --sidebar-bg: #1e1f2e;
+  --sidebar-text: #9ca3af;
+  --sidebar-text-active: #ffffff;
+  --sidebar-accent: #6366f1;
+
+  --canvas-bg: #f8f9fb;
+  --canvas-dots: #d1d5db;
+
+  --shadow-sm: 0 1px 2px 0 rgba(0,0,0,0.05);
+  --shadow-md: 0 4px 6px -1px rgba(0,0,0,0.07), 0 2px 4px -2px rgba(0,0,0,0.05);
+  --shadow-lg: 0 10px 15px -3px rgba(0,0,0,0.08), 0 4px 6px -4px rgba(0,0,0,0.04);
+  --shadow-xl: 0 20px 25px -5px rgba(0,0,0,0.08), 0 8px 10px -6px rgba(0,0,0,0.04);
+  --shadow-glow: 0 0 20px rgba(99, 102, 241, 0.15);
+
+  --radius-sm: 6px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+  --radius-xl: 16px;
+}
+
+/* ---- Base Styles ---- */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html, body {
+  height: 100%;
+  overflow: hidden;
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-sans), system-ui, -apple-system, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
+
+/* ---- Scrollbar Styling ---- */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: #d1d5db;
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #9ca3af;
+}
+
+/* =========================================
+   React Flow Overrides
+   ========================================= */
+.react-flow__background {
+  background-color: var(--canvas-bg) !important;
+}
+
+.react-flow__minimap {
+  border-radius: var(--radius-lg) !important;
+  overflow: hidden !important;
+  box-shadow: var(--shadow-lg) !important;
+  border: 1px solid var(--border-color) !important;
+  background: var(--surface) !important;
+}
+
+.react-flow__controls {
+  border-radius: var(--radius-lg) !important;
+  overflow: hidden !important;
+  box-shadow: var(--shadow-lg) !important;
+  border: 1px solid var(--border-color) !important;
+  background: var(--surface) !important;
+}
+
+.react-flow__controls button {
+  background: var(--surface) !important;
+  border: none !important;
+  border-bottom: 1px solid var(--border-light) !important;
+  color: var(--foreground) !important;
+  width: 32px !important;
+  height: 32px !important;
+}
+
+.react-flow__controls button:hover {
+  background: var(--surface-hover) !important;
+}
+
+.react-flow__controls button:last-child {
+  border-bottom: none !important;
+}
+
+.react-flow__controls button svg {
+  fill: currentColor !important;
+}
+
+.react-flow__edge-path {
+  stroke: #94a3b8 !important;
+  stroke-width: 2 !important;
+}
+
+.react-flow__edge.selected .react-flow__edge-path {
+  stroke: var(--primary) !important;
+  stroke-width: 2.5 !important;
+}
+
+.react-flow__edge:hover .react-flow__edge-path {
+  stroke: var(--primary) !important;
+}
+
+.react-flow__handle {
+  width: 10px !important;
+  height: 10px !important;
+  border: 2px solid var(--surface) !important;
+  box-shadow: var(--shadow-sm) !important;
+  transition: all 0.15s ease;
+}
+
+.react-flow__handle:hover {
+  transform: scale(1.3);
+}
+
+.react-flow__handle-top {
+  top: -5px !important;
+}
+
+.react-flow__handle-bottom {
+  bottom: -5px !important;
+}
+
+.react-flow__node {
+  border: none !important;
+  box-shadow: none !important;
+}
+
+.react-flow__attribution {
+  display: none !important;
+}
+
+/* =========================================
+   Custom Node Styles
+   ========================================= */
+.workflow-node {
+  background: var(--surface);
+  border: 1.5px solid var(--border-color);
+  border-radius: var(--radius-lg);
+  min-width: 220px;
+  max-width: 280px;
+  box-shadow: var(--shadow-md);
+  transition: all 0.2s ease;
+  cursor: pointer;
+  position: relative;
+  overflow: visible;
+}
+
+.workflow-node:hover {
+  box-shadow: var(--shadow-lg);
+  transform: translateY(-1px);
+  border-color: #c7ccd2;
+}
+
+.workflow-node.selected {
+  border-color: var(--primary);
+  box-shadow: var(--shadow-glow), var(--shadow-lg);
+}
+
+.workflow-node .node-accent {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+}
+
+.workflow-node .node-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 14px 8px;
+}
+
+.workflow-node .node-icon {
+  width: 34px;
+  height: 34px;
+  border-radius: var(--radius-md);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.workflow-node .node-icon svg {
+  width: 18px;
+  height: 18px;
+  color: white;
+}
+
+.workflow-node .node-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.workflow-node .node-title {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--foreground);
+  line-height: 1.3;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.workflow-node .node-subtitle {
+  font-size: 11px;
+  color: var(--muted-fg);
+  margin-top: 1px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.workflow-node .node-body {
+  padding: 0 14px 12px;
+}
+
+.workflow-node .node-badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  padding: 4px 14px 10px;
+}
+
+.node-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 2px 8px;
+  border-radius: 999px;
+  font-size: 10px;
+  font-weight: 500;
+  background: var(--muted);
+  color: var(--muted-fg);
+}
+
+.node-badge.badge-success {
+  background: #dcfce7;
+  color: #15803d;
+}
+
+.node-badge.badge-warning {
+  background: #fef3c7;
+  color: #b45309;
+}
+
+.node-badge.badge-info {
+  background: #dbeafe;
+  color: #1d4ed8;
+}
+
+.node-badge.badge-error {
+  background: #fee2e2;
+  color: #dc2626;
+}
+
+/* Node type-specific handle colors */
+.workflow-node.node-start .react-flow__handle { background: var(--node-start) !important; }
+.workflow-node.node-task .react-flow__handle { background: var(--node-task) !important; }
+.workflow-node.node-approval .react-flow__handle { background: var(--node-approval) !important; }
+.workflow-node.node-automated .react-flow__handle { background: var(--node-automated) !important; }
+.workflow-node.node-end .react-flow__handle { background: var(--node-end) !important; }
+
+/* Validation error indicator on nodes */
+.workflow-node .node-error-badge {
+  position: absolute;
+  top: -8px;
+  right: -8px;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: #ef4444;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 11px;
+  font-weight: 700;
+  box-shadow: 0 2px 4px rgba(239, 68, 68, 0.4);
+  z-index: 10;
+}
+
+/* =========================================
+   Sidebar Styles
+   ========================================= */
+.sidebar {
+  background: var(--sidebar-bg);
+  color: var(--sidebar-text);
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  border-right: 1px solid rgba(255,255,255,0.06);
+  position: relative;
+  z-index: 20;
+}
+
+.sidebar-logo {
+  padding: 20px 20px 16px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  border-bottom: 1px solid rgba(255,255,255,0.06);
+}
+
+.sidebar-logo .logo-icon {
+  width: 32px;
+  height: 32px;
+  border-radius: var(--radius-md);
+  background: linear-gradient(135deg, #6366f1, #8b5cf6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.sidebar-logo .logo-text {
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--sidebar-text-active);
+  letter-spacing: -0.3px;
+}
+
+.sidebar-section {
+  padding: 16px 12px 8px;
+}
+
+.sidebar-section-title {
+  font-size: 10px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: rgba(255,255,255,0.3);
+  padding: 0 8px;
+  margin-bottom: 8px;
+}
+
+/* Draggable node items in sidebar */
+.sidebar-node-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 12px;
+  border-radius: var(--radius-md);
+  cursor: grab;
+  transition: all 0.15s ease;
+  margin-bottom: 2px;
+  border: 1px solid transparent;
+}
+
+.sidebar-node-item:hover {
+  background: rgba(255,255,255,0.06);
+  border-color: rgba(255,255,255,0.08);
+}
+
+.sidebar-node-item:active {
+  cursor: grabbing;
+  opacity: 0.7;
+}
+
+.sidebar-node-item .item-icon {
+  width: 32px;
+  height: 32px;
+  border-radius: var(--radius-sm);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.sidebar-node-item .item-icon svg {
+  width: 16px;
+  height: 16px;
+  color: white;
+}
+
+.sidebar-node-item .item-label {
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--sidebar-text);
+}
+
+.sidebar-node-item:hover .item-label {
+  color: var(--sidebar-text-active);
+}
+
+/* =========================================
+   Panel Styles (Node Editor, Simulation)
+   ========================================= */
+.panel {
+  background: var(--surface);
+  border-left: 1px solid var(--border-color);
+  width: 360px;
+  min-width: 360px;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  animation: slideIn 0.2s ease;
+}
+
+@keyframes slideIn {
+  from {
+    transform: translateX(20px);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+.panel-header {
+  padding: 16px 20px;
+  border-bottom: 1px solid var(--border-color);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.panel-header h3 {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--foreground);
+}
+
+.panel-content {
+  flex: 1;
+  overflow-y: auto;
+  padding: 16px 20px;
+}
+
+.panel-footer {
+  padding: 12px 20px;
+  border-top: 1px solid var(--border-color);
+  display: flex;
+  gap: 8px;
+}
+
+/* =========================================
+   Form Styles
+   ========================================= */
+.form-group {
+  margin-bottom: 16px;
+}
+
+.form-label {
+  display: block;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--foreground);
+  margin-bottom: 6px;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+}
+
+.form-input {
+  width: 100%;
+  padding: 8px 12px;
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  font-size: 13px;
+  color: var(--foreground);
+  background: var(--surface);
+  transition: all 0.15s ease;
+  outline: none;
+  font-family: inherit;
+}
+
+.form-input:focus {
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+}
+
+.form-input::placeholder {
+  color: #9ca3af;
+}
+
+.form-textarea {
+  resize: vertical;
+  min-height: 80px;
+}
+
+.form-select {
+  width: 100%;
+  padding: 8px 12px;
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  font-size: 13px;
+  color: var(--foreground);
+  background: var(--surface);
+  outline: none;
+  cursor: pointer;
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%236b7280' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 12px center;
+  padding-right: 32px;
+}
+
+.form-select:focus {
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+}
+
+/* Key-Value editor */
+.kv-row {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 6px;
+  align-items: center;
+}
+
+.kv-row input {
+  flex: 1;
+}
+
+.kv-row .kv-remove {
+  width: 28px;
+  height: 28px;
+  border-radius: var(--radius-sm);
+  border: none;
+  background: transparent;
+  color: var(--muted-fg);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition: all 0.15s ease;
+}
+
+.kv-row .kv-remove:hover {
+  background: #fee2e2;
+  color: #dc2626;
+}
+
+/* =========================================
+   Button Styles
+   ========================================= */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 8px 16px;
+  border-radius: var(--radius-md);
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  border: 1px solid transparent;
+  font-family: inherit;
+  white-space: nowrap;
+}
+
+.btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.btn-primary {
+  background: var(--primary);
+  color: white;
+  border-color: var(--primary);
+}
+
+.btn-primary:hover:not(:disabled) {
+  background: #4f46e5;
+  box-shadow: 0 2px 8px rgba(99, 102, 241, 0.3);
+}
+
+.btn-secondary {
+  background: var(--surface);
+  color: var(--foreground);
+  border-color: var(--border-color);
+}
+
+.btn-secondary:hover:not(:disabled) {
+  background: var(--surface-hover);
+}
+
+.btn-danger {
+  background: #ef4444;
+  color: white;
+  border-color: #ef4444;
+}
+
+.btn-danger:hover:not(:disabled) {
+  background: #dc2626;
+}
+
+.btn-ghost {
+  background: transparent;
+  color: var(--muted-fg);
+  padding: 6px 8px;
+}
+
+.btn-ghost:hover:not(:disabled) {
+  background: var(--surface-hover);
+  color: var(--foreground);
+}
+
+.btn-sm {
+  padding: 5px 10px;
+  font-size: 12px;
+}
+
+.btn-icon {
+  padding: 6px;
+  width: 32px;
+  height: 32px;
+}
+
+/* =========================================
+   Toolbar
+   ========================================= */
+.toolbar {
+  background: var(--surface);
+  border-bottom: 1px solid var(--border-color);
+  padding: 8px 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  z-index: 10;
+}
+
+.toolbar-group {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.toolbar-divider {
+  width: 1px;
+  height: 24px;
+  background: var(--border-color);
+  margin: 0 8px;
+}
+
+/* =========================================
+   Simulation Timeline
+   ========================================= */
+.simulation-timeline {
+  position: relative;
+  padding-left: 24px;
+}
+
+.simulation-timeline::before {
+  content: '';
+  position: absolute;
+  left: 9px;
+  top: 4px;
+  bottom: 4px;
+  width: 2px;
+  background: var(--border-color);
+  border-radius: 1px;
+}
+
+.timeline-step {
+  position: relative;
+  padding: 8px 0 16px 16px;
+}
+
+.timeline-step .step-dot {
+  position: absolute;
+  left: -20px;
+  top: 12px;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  border: 2px solid var(--surface);
+  box-shadow: var(--shadow-sm);
+  z-index: 1;
+}
+
+.timeline-step .step-dot.dot-completed { background: var(--node-start); }
+.timeline-step .step-dot.dot-failed { background: var(--node-end); }
+.timeline-step .step-dot.dot-running { background: var(--node-task); animation: pulse 1.5s infinite; }
+.timeline-step .step-dot.dot-pending { background: #d1d5db; }
+
+@keyframes pulse {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(59, 130, 246, 0.4); }
+  50% { box-shadow: 0 0 0 6px rgba(59, 130, 246, 0); }
+}
+
+.timeline-step .step-title {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--foreground);
+}
+
+.timeline-step .step-detail {
+  font-size: 12px;
+  color: var(--muted-fg);
+  margin-top: 2px;
+  line-height: 1.4;
+}
+
+.timeline-step .step-meta {
+  display: flex;
+  gap: 12px;
+  margin-top: 4px;
+}
+
+.timeline-step .step-meta span {
+  font-size: 11px;
+  color: var(--muted-fg);
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+/* =========================================
+   Template Card
+   ========================================= */
+.template-card {
+  padding: 12px;
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  transition: all 0.15s ease;
+  margin-bottom: 8px;
+}
+
+.template-card:hover {
+  background: rgba(255,255,255,0.04);
+  border-color: rgba(255,255,255,0.12);
+}
+
+.template-card .template-name {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--sidebar-text-active);
+}
+
+.template-card .template-desc {
+  font-size: 11px;
+  color: var(--sidebar-text);
+  margin-top: 2px;
+}
+
+.template-card .template-meta {
+  display: flex;
+  gap: 12px;
+  margin-top: 6px;
+  font-size: 10px;
+  color: rgba(255,255,255,0.4);
+}
+
+/* =========================================
+   Toggle Switch
+   ========================================= */
+.toggle-switch {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+}
+
+.toggle-track {
+  width: 36px;
+  height: 20px;
+  background: var(--border-color);
+  border-radius: 10px;
+  position: relative;
+  transition: background 0.2s ease;
+}
+
+.toggle-track.active {
+  background: var(--primary);
+}
+
+.toggle-thumb {
+  width: 16px;
+  height: 16px;
+  background: white;
+  border-radius: 50%;
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  transition: transform 0.2s ease;
+  box-shadow: var(--shadow-sm);
+}
+
+.toggle-track.active .toggle-thumb {
+  transform: translateX(16px);
+}
+
+/* =========================================
+   Tooltip
+   ========================================= */
+.tooltip-trigger {
+  position: relative;
+}
+
+.tooltip-content {
+  position: absolute;
+  bottom: calc(100% + 6px);
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 4px 8px;
+  background: var(--foreground);
+  color: var(--surface);
+  font-size: 11px;
+  border-radius: var(--radius-sm);
+  white-space: nowrap;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.15s ease;
+}
+
+.tooltip-trigger:hover .tooltip-content {
+  opacity: 1;
+}
+
+/* =========================================
+   Animations
+   ========================================= */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes scaleIn {
+  from { opacity: 0; transform: scale(0.95); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+.animate-fade-in { animation: fadeIn 0.2s ease; }
+.animate-fade-in-up { animation: fadeInUp 0.3s ease; }
+.animate-scale-in { animation: scaleIn 0.2s ease; }
+
+/* =========================================
+   Status indicator
+   ========================================= */
+.status-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  display: inline-block;
+}
+
+.status-dot.online { background: #10b981; }
+.status-dot.offline { background: #ef4444; }
+.status-dot.pending { background: #f59e0b; }
+
+/* =========================================
+   Workspace Tabs
+   ========================================= */
+.workspace-tabs-bar {
+  display: flex;
+  align-items: center;
+  background: var(--surface);
+  border-top: 1px solid var(--border-color);
+  padding: 0 8px;
+  height: 38px;
+  min-height: 38px;
+  gap: 2px;
+  overflow: hidden;
+}
+
+.workspace-tabs-scroll {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  flex: 1;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+
+.workspace-tabs-scroll::-webkit-scrollbar {
+  display: none;
+}
+
+.workspace-tab {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 10px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  white-space: nowrap;
+  font-size: 12px;
+  color: var(--muted-fg);
+  border: 1px solid transparent;
+  user-select: none;
+  position: relative;
+}
+
+.workspace-tab:hover {
+  background: var(--surface-hover);
+  color: var(--foreground);
+}
+
+.workspace-tab.active {
+  background: #eef2ff;
+  color: #4338ca;
+  border-color: #c7d2fe;
+  font-weight: 600;
+}
+
+.ws-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  flex-shrink: 0;
+  transition: background 0.15s ease;
+}
+
+.ws-name {
+  font-size: 12px;
+  max-width: 120px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.ws-rename-input {
+  font-size: 12px;
+  padding: 1px 4px;
+  border: 1px solid #c7d2fe;
+  border-radius: 4px;
+  outline: none;
+  background: white;
+  color: var(--foreground);
+  width: 100px;
+  font-family: inherit;
+}
+
+.ws-rename-input:focus {
+  border-color: var(--primary);
+  box-shadow: 0 0 0 2px rgba(99, 102, 241, 0.1);
+}
+
+.ws-actions {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  opacity: 0;
+  transition: opacity 0.15s ease;
+}
+
+.workspace-tab:hover .ws-actions,
+.workspace-tab.active .ws-actions {
+  opacity: 1;
+}
+
+.ws-action-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 18px;
+  height: 18px;
+  border-radius: 4px;
+  border: none;
+  background: transparent;
+  color: var(--muted-fg);
+  cursor: pointer;
+  transition: all 0.1s ease;
+  padding: 0;
+}
+
+.ws-action-btn:hover {
+  background: rgba(0,0,0,0.08);
+  color: var(--foreground);
+}
+
+.ws-close-btn:hover {
+  background: #fee2e2;
+  color: #dc2626;
+}
+
+.workspace-add-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 6px;
+  border: 1px dashed var(--border-color);
+  background: transparent;
+  color: var(--muted-fg);
+  cursor: pointer;
+  transition: all 0.15s ease;
+  flex-shrink: 0;
+  margin-left: 4px;
+}
+
+.workspace-add-btn:hover {
+  border-color: var(--primary);
+  color: var(--primary);
+  background: #eef2ff;
+}
+
+.ws-count {
+  font-size: 10px;
+  color: var(--muted-fg);
+  margin-left: 8px;
+  margin-right: 4px;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
